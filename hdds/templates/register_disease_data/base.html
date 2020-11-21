@@ -1,0 +1,410 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+     <script src="{% static "js/jquery-3.4.1.js" %}" ></script>
+    <script>
+        function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            var csrf_token = "{{ csrf_token }}";
+            var csrftoken = getCookie('csrftoken');
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+    </script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+     <link rel="stylesheet" href="{% static 'css/select2.min.css' %}" >
+    <link rel="stylesheet" href="{% static '/DataTables/dataTables.min.css' %}">
+     <link rel="stylesheet" href="{% static '/css/fstdropdown.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/fontello/css/fontello.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/Ionicons/css/ionicons.min.css' %}">
+
+    {% if title %}
+        <title>Django register_disease_data - {{ title }}</title>
+    {% else %}
+        <title>Django register_disease_data</title>
+    {% endif %}
+
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
+    <div class="container">
+        <a class="navbar-brand" href="#">Human Disease Diagonising System</a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
+            &#9776;
+        </button>
+        <div class="collapse navbar-collapse" id="exCollapsingNavbar">
+
+            <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+                <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
+                <li class="dropdown order-1">
+                    <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right mt-2">
+                       <li class="px-3 py-2">
+                           <form class="form" role="form">
+                               {% csrf_token %}
+                                <div class="form-group">
+                                    <input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">
+                                </div>
+                                <div class="form-group">
+                                    <input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="text" required="">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                </div>
+                                <div class="form-group text-center">
+                                    <small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="modalPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Forgot password</h3>
+                <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Reset your password..</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-4">
+
+          <div class="content-section">
+            <h3>SERVICES</h3>
+              <p class='text-muted'><span style="color: dodgerblue">Select service!</span>
+              <ul class="list-group">
+                <li onclick="toggle_main_service(1)" class="list-group-item list-group-item-light" style="cursor: pointer">Diagonising disease</li>
+                <li onclick="toggle_main_service(2)" class="list-group-item list-group-item-light" style="cursor: pointer">Disease detail</li>
+                <li onclick="toggle_main_service(3)" class="list-group-item list-group-item-light" style="cursor: pointer">Manage Disease Data</li>
+                <li onclick="toggle_main_service(4)" class="list-group-item list-group-item-light" style="cursor: pointer">Manage Special Doctors</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <table class="table">
+              <tr class="toggle_main_service toggle_main_service1">
+                  <td>
+                      <h4>Diagonising Disease</h4>
+                      <table style="width:100%">
+                          <tr style="color:#0069d9"><th>Select symptoms</th><th>Selected symptoms</th></tr>
+                          <tr>
+                              <td>
+                                 <div class="form-group has-search" data-url="{% url "load_symptoms_for_diagonising" %}" onkeyup="load_symptoms_for_diagonising()" id="search-symptom-for-diagonising" style="margin-bottom: 0px">
+                                    <span class="fa fa-search form-control-feedback"></span>
+                                    <input type="text" class="form-control" placeholder="Search">
+                                  </div>
+                              </td>
+                              <td>
+                                     <button class="btn btn-sm btn-secondary float-right">remove all</button>
+                              </td>
+
+                          </tr>
+                          <tr>
+                              <td class="border" id="loaded_symptom_list" style="padding: 5px;background-color: white">
+
+
+                              </td>
+                              <td class="border" style="height:100%;padding: 5px;background-color: wheat">
+                                      <span style="color:red;margin-left: 20px">There is no selected symptoms!</span>
+
+
+                              </td>
+                          </tr>
+                      </table>
+                  </td>
+              </tr>
+
+              <tr class="toggle_main_service toggle_main_service2">
+                  <td>
+                      <h4>Disease Detail</h4>
+                  </td>
+              </tr>
+
+              <tr class="toggle_main_service toggle_main_service3">
+                  <td>
+
+                      <div class="row1 row"  style="text-align: center">
+                          <div class="col-2">
+                              <h4><i onclick="disease_data_management_undo_action()" class="fa  fa-arrow-circle-left "
+                                     style="cursor:pointer;color:lightgrey"></i>
+                                  <i onclick="disease_data_management_redo_action()" class="fa  fa-arrow-circle-right "
+                                     style="cursor:pointer;color:lightgrey"></i></h4>
+                          </div>
+                          <div class="col-10">
+                              <h4 style="color: black">Manage Disease Data</h4>
+                          </div>
+                      </div>
+
+                      <div class="row ">
+
+                          <div class="col">
+                              <article class="media content-section">
+                                      <div class="media-body">
+                                        <div class="article-metadata">
+                                          <h5>Registering data</h5>
+                                        </div>
+                                          <div class="row">
+                                              <div class="col">
+                                               <select id="role_dropdown_1" class="form-control" id="sel1">
+                                                    <option value="0" selected>select task </option>
+                                                    <option value="2">Registering symptom</option>
+                                                    <option value="1">Registering symptom category</option>
+                                                    <option value="3">Registering pathogens</option>
+                                                    <option value="4">Registering disease category</option>
+                                                    <option value="5">Registering disease</option>
+                                                    <option value="6">Registering factor</option>
+                                                    <option value="14">Registering factor options</option>
+                                                    <option value="7">Registering measurement</option>
+                                                    <option value="8">Registering medicine</option>
+                                                    <option value="9">Registering medicine type</option>
+                                                    <option value="10">Registering medicine taking way</option>
+                                               </select>
+                                              </div>
+
+                                          </div>
+                                      </div>
+                              </article>
+                        </div>
+
+                          <div class="col">
+                           <article class="media content-section">
+                                      <div class="media-body">
+                                        <div class="article-metadata">
+                                          <h5>Disease and prescription detail</h5>
+                                        </div>
+                                          <div class="row">
+                                              <div class="col">
+                                               <select id="role_dropdown_2"  class="form-control" id="sel1">
+                                                    <option value="0" selected >select task </option>
+                                                    <option value="11">Add disease detail</option>
+                                                   <option value="13">Add medicine information</option>
+                                               </select>
+                                              </div>
+
+                                          </div>
+                                      </div>
+                              </article>
+                        </div>
+
+                      </div>
+
+                      <div class="scrollable-div-1" style="overflow: auto">
+                          {% block content %}{% endblock %}
+                      </div>
+                  </td>
+              </tr>
+
+              <tr class="toggle_main_service toggle_main_service4">
+                  <td>
+                      <h4>Manage Special Doctor</h4>
+                  </td>
+              </tr>
+          </table>
+
+        </div>
+
+      </div>
+    </main>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="{% static "js/jquery-3.4.1.js" %}" ></script>
+    <script src="{% static "js/popper.min.js" %}" ></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static '/DataTables/dataTables.min.js' %}"></script>
+
+    <script src="{% static '/main.js' %}"></script>
+    <script src="{% static 'js/symptom_category.js' %}"></script>
+    <script src="{% static 'js/symptom.js' %}"></script>
+    <script src="{% static 'js/pathogen.js' %}"></script>
+    <script src="{% static 'js/disease_category.js' %}"></script>
+    <script src="{% static 'js/disease.js' %}"></script>
+    <script src="{% static 'js/factor.js' %}"></script>
+    <script src="{% static 'js/measurement.js' %}"></script>
+    <script src="{% static 'js/medicine.js' %}"></script>
+    <script src="{% static 'js/medicine_type.js' %}"></script>
+    <script src="{% static 'js/medicine_taking_way.js' %}"></script>
+    <script src="{% static 'js/disease_detail.js' %}"></script>
+    <script src="{% static 'js/factor_options.js' %}"></script>
+    <script src="{% static 'js/medicine_type_usage.js' %}"></script>
+    <script src="{% static 'js/fstdropdown.min.js' %}"></script>
+    <script src="{% static 'js/select2.min.js' %}"></script>
+    <script src="{% static 'js/diagonising.js' %}"></script>
+</body>
+<script>
+
+$(".toggle_main_service").hide();
+function toggle_main_service(id)
+{
+   $(".toggle_main_service").hide();
+   $(".toggle_main_service"+id).show();
+   if(id==1)
+   {
+       load_symptoms_for_diagonising();
+   }
+   else if(id==3)
+   {
+        $(".role_toggle").hide();
+   }
+}
+toggle_main_service(1);
+set_height_of_scrollable_div();
+function set_height_of_scrollable_div()
+{
+    $(".scrollable-div-1").css("height",(($(window).innerHeight()*65)/100)+"px");
+}
+$(window).resize(function()
+   {
+       set_height_of_scrollable_div();
+   });
+
+$("#role_dropdown_1").change(function(){
+    switch_disease_data_management($(this).val());
+});
+
+$("#role_dropdown_2").change(function(){
+    switch_disease_data_management($(this).val());
+});
+
+$("#role_dropdown_1").click(function(){
+    switch_disease_data_management($(this).val());
+});
+
+$("#role_dropdown_2").click(function(){
+    switch_disease_data_management($(this).val());
+});
+
+
+var act_ind=0;
+var action_array=[0];
+var limit=0;
+function  disease_data_management_undo_action()
+{
+    if(act_ind>0)
+    {
+        act_ind--;
+        _switch_disease_data_management(action_array[act_ind]);
+    }
+}
+function  disease_data_management_redo_action()
+{
+    if(act_ind<limit)
+    {
+        act_ind++;
+        _switch_disease_data_management(action_array[act_ind]);
+    }
+}
+
+
+
+
+function switch_disease_data_management(id)
+{
+    $(".role_toggle").hide();
+    if(id>0 && $(".role_toggle_"+id).length>=1)
+    {
+        limit=++act_ind;
+        action_array[limit]=id;
+        $(".role_toggle_"+id).css('opacity' ,'0.3');
+        $(".role_toggle_"+id).show();
+        reset_table_and_data(id);
+        setTimeout(function(){
+
+            $(".role_toggle_"+id).css('opacity' ,'1');},800);
+    }
+}
+function _switch_disease_data_management(id)
+{
+    $(".role_toggle").hide();
+    if(id>0 && $(".role_toggle_"+id).length>=1)
+    {
+        $(".role_toggle_"+id).css('opacity' ,'0.3');
+        $(".role_toggle_"+id).show();
+        reset_table_and_data(id);
+        $("#role_dropdown_1").val(id);
+        setTimeout(function(){
+        $(".role_toggle_"+id).css('opacity' ,'1');},800);
+    }
+      $("#role_dropdown_1").val(id);
+}
+
+
+function reset_table_and_data(id)
+{
+    if(id==1) { startSymptomCategory(); }
+    else if(id==2) { startSymptom(); load_symptom_category_to_symptom_registration_form(); }
+    else if(id==3) { startPathogen(); }
+    else if(id==4) { startDiseaseCategory(); }
+    else if(id==5) { startDisease(); load_pathogen_to_disease_registration_form();load_disease_category_to_disease_registration_form();}
+    else if(id==6) { startFactor(); }
+    else if(id==7) { startMeasurement(); }
+    else if(id==8) { startMedicine(); }
+    else if(id==9) { startMedicineType(); }
+    else if(id==10) { startMedicineTakingWay(); }
+    else if(id==11) { startDiseaseDetail(); }
+    else if(id==12) { load_symptom_category_to_disease_detail_form();load_factor_to_disease_detail_form();}
+    else if(id==13) { startMedicineTypeUsage();}
+    else if(id==14) { startFactorOptions();load_factor_to_factor_options_registration_form(); }
+    else if(id==18) { load_medicine_type_for_prescription_form();load_factor_option_to_prescription_form(); }
+
+}
+
+
+
+
+</script>
+</html>

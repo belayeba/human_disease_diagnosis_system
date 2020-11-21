@@ -1,0 +1,106 @@
+ {% extends "manage_medicine_type/medicine_type.html" %}
+ {% block content10 %}
+
+         <div class="card pane role_toggle role_toggle_10">
+             <div class="card-header bg-secondary text-white">Registering medicine taking way
+             <a   onclick='toggle_medicineTakingWay_registration_block()' id="register_medicineTakingWay_btn"
+                          style="float:right;cursor:pointer;margin-bottom:8px;color:lightcyan"><ins>Add new</ins></a>
+             </div>
+             <div class="card-body">
+
+                  <div  style="padding-bottom:5px;margin-top:0px;">
+                  <div id="registering_medicineTakingWay_form_block" style="z-index: 1;background-color: whitesmoke;padding: 10px;border-radius: 5px" >
+
+                  <form id="medicineTakingWay_registering_form" data-url="{% url "save_medicineTakingWay" %}">
+                      {% csrf_token %}
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Description</span>
+                        </div>
+                        <input name="description" id="medicineTakingWay_registration_description" onkeyup="load_medicineTakingWay_description($(this).val(),'{% url 'medicineTakingWay_description_browser'  %}')"
+                               type="text" class="form-control"
+                               placeholder="description..."
+                               list="medicineTakingWay_description_browser" onkeydown="block_unwanted_symbol()">
+                        <input type="submit" class="btn btn-sm btn-info" value="add">
+                      </div>
+                      <div id="medicineTakingWay_registration_description_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                  </form>
+
+
+
+                   <datalist class="data" id="medicineTakingWay_description_browser"></datalist>
+
+
+
+                   </div>
+                  </div>
+
+                  <div id="medicineTakingWay_table_parent_div">
+                  <table data-url="{% url "medicineTakingWay_datatable_link" %}" style="margin-top:5px; margin-left:0px;" id="medicineTakingWay_table">
+                            <thead>
+                                <th>Description</th><th></th><th></th>
+                            </thead>
+                  </table>
+                  </div>
+
+                  <div id="medicineTakingWay_delete_confirmation" class="alert alert-danger" style="display:none;position: absolute; top: 35%;right:15%;width: 70%;" >
+                       <button type="button" class="close"  aria-label="Close"
+                               onclick="disable_medicineTakingWay_delete_confirmation()">
+                           <span aria-hidden="true">&times;</span>
+                       </button><br/><br/>
+                       Do you want to delete medicineTakingWay with description of "<span style="color:#0069d9" id="medicineTakingWay_delete_confirmation_description"></span>" ?
+                      <br/><br/><div class="row">
+                          <div class="col-6"></div>
+                          <div class="col-6">
+                              <button onclick="confirmed_delete_medicineTakingWay()" data-url={% url "delete_medicineTakingWay" %} id="medicineTakingWay_delete_yes_btn_id" style="margin-right: 15px;float:right" data-id="" class="btn btn-primary btn-sm">Yes</button>
+                              <button onclick="disable_medicineTakingWay_delete_confirmation()" style="float:right;margin-right: 15px" class="btn btn-secondary btn-sm">No</button>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div id="medicineTakingWay_notification" class="alert alert-danger" style="display:none;position: absolute; top: 1%;right:1%;width: 50%;" >
+
+                      <div class="row">
+                          <div class="col-10" id="medicineTakingWay_notification_message"></div>
+                          <div  class="col-2">
+                               <button type="button" class="close"  aria-label="Close"onclick="hide_medicineTakingWay_notification()">
+                                   <span aria-hidden="true">&times;</span>
+                               </button>
+                          </div>
+                      </div>
+                  </div>
+                   <div id="medicineTakingWay_update_popup" style="display:none;position: absolute; top: 20%;right:15%;width: 70%;;padding: 6px;background-color: gray">
+                               <div class="card">
+                                         <div class="card-header">Update medicine taking way
+                                               <button type="button" class="close"  aria-label="Close"
+                                                       onclick="hide_medicineTakingWay_update_popup()">
+                                                   <span aria-hidden="true">&times;</span>
+                                               </button>
+                                          </div>
+                                           <div class="card-body">
+                                               <form id="medicineTakingWay_update_form" data-url="{% url "update_medicineTakingWay" %}">
+                                                   {% csrf_token %}
+                                                   <input id="medicineTakingWay_id_update" name="id" hidden>
+                                                   <label>Description </label><br/>
+                                                   <input onkeyup="load_medicineTakingWay_description($(this).val(),'{% url 'medicineTakingWay_description_browser' %}')"
+                                                          list="medicineTakingWay_description_browser" id="medicineTakingWay_description_update"
+                                                          name="description" class="form-control" type="text" placeholder="description...">
+                                                   <div id="medicineTakingWay_update_description_error" class="invalid-feedback" ></div><br/>
+                                                   <input type="submit" value="save" class="btn btn-primary btn-sm">
+                                               </form>
+                                           </div>
+                                </div>
+                   </div>
+
+             </div>
+             <div class="card-footer">Footer</div>
+        </div>
+      {% block content11 %}
+
+     {% endblock content11 %}
+
+ {% endblock content10 %}
+
+
+
+

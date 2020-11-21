@@ -1,0 +1,173 @@
+
+ {% extends "manage_disease_category/disease_category.html" %}
+ {% block content5 %}
+
+
+         <div class="card pane role_toggle role_toggle_5" >
+             <div class="card-header bg-secondary text-white">Registering disease 
+             <a   onclick='toggle_disease_registration_block()' id="register_disease_btn"
+                          style="float:right;cursor:pointer;margin-bottom:8px;color:lightcyan"><ins>Add new</ins></a>
+             </div>
+             <div class="card-body">
+
+                  <div  style="padding-bottom:5px;margin-top:0px;">
+                  <div id="registering_disease_form_block" style="z-index: 1;background-color: whitesmoke;padding: 10px;border-radius: 5px" >
+
+
+
+                  <form id="disease_registering_form" data-url="{% url "save_disease" %}">
+                      {% csrf_token %}
+                      <div id="disease_registration_general_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                      <div class="row" style="padding-top: 8px">
+                          <div class="col-3 text-right" >
+                              <label>Name :</label>
+                          </div>
+                          <div class="col-9">
+                              <input name="name" id="disease_registration_name" onkeyup="load_disease_name($(this).val(),'{% url 'disease_name_browser'  %}')"
+                               type="text" class="form-control"
+                               placeholder="name..."
+                               list="disease_name_browser" onkeydown="block_unwanted_symbol()">
+                               <div id="disease_registration_name_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                       <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Category :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="disease_registration_category_dropdown"  name="disease_category" data-url="{% url "load_disease_category" %}">
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_registration_category_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Pathogen :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="disease_registration_pathogen_dropdown"  name="pathogen" data-url="{% url "load_pathogen" %}">
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_registration_pathogen_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3">
+
+                          </div>
+                          <div class="col-9">
+                                <input type="submit" class="btn btn-info btn-sm" value="add">
+                          </div>
+                      </div>
+
+
+                  </form>
+
+
+
+                   <datalist class="data" id="disease_name_browser"></datalist>
+
+
+
+                   </div>
+                  </div>
+
+                  <div id="disease_table_parent_div">
+                  <table data-url="{% url "disease_datatable_link" %}" style="margin-top:5px; margin-left:0px;" id="disease_table">
+                            <thead>
+                                <th>Name</th><th>Disease Category</th><th>Pathogen</th><th></th><th></th>
+                            </thead>
+                  </table>
+                  </div>
+
+                  <div id="disease_delete_confirmation" class="alert alert-danger" style="display:none;position: absolute; top: 35%;right:15%;width: 70%;" >
+                       <button type="button" class="close"  aria-label="Close"
+                               onclick="disable_disease_delete_confirmation()">
+                           <span aria-hidden="true">&times;</span>
+                       </button><br/><br/>
+                       Do you want to delete disease  with name of "<span style="color:#0069d9" id="disease_delete_confirmation_name"></span>" ?
+                      <br/><br/><div class="row">
+                          <div class="col-6"></div>
+                          <div class="col-6">
+                              <button onclick="confirmed_delete_disease()" data-url={% url "delete_disease" %} id="disease_delete_yes_btn_id" style="margin-right: 15px;float:right" data-id="" class="btn btn-primary btn-sm">Yes</button>
+                              <button onclick="disable_disease_delete_confirmation()" style="float:right;margin-right: 15px" class="btn btn-secondary btn-sm">No</button>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div id="disease_notification" class="alert alert-danger" style="display:none;position: absolute; top: 1%;right:1%;width: 50%;" >
+
+                      <div class="row">
+                          <div class="col-10" id="disease_notification_message"></div>
+                          <div  class="col-2">
+                               <button type="button" class="close"  aria-label="Close"onclick="hide_disease_notification()">
+                                   <span aria-hidden="true">&times;</span>
+                               </button>
+                          </div>
+                      </div>
+                  </div>
+                   <div id="disease_update_popup" style="display:none;position: absolute; top: 20%;right:15%;width: 70%;;padding: 6px;background-color: gray">
+                               <div class="card">
+                                         <div class="card-header">Update disease 
+                                               <button type="button" class="close"  aria-label="Close"
+                                                       onclick="hide_disease_update_popup()">
+                                                   <span aria-hidden="true">&times;</span>
+                                               </button>
+                                          </div>
+                                           <div class="card-body">
+                                               <div id="disease_update_general_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                                               <form id="disease_update_form" data-url="{% url "update_disease" %}">
+                                                   {% csrf_token %}
+                                                   <input id="disease_id_update" name="id" hidden>
+                                                   <label>Name </label><br/>
+                                                   <input onkeyup="load_disease_name($(this).val(),'{% url 'disease_name_browser' %}')" list="disease_name_browser" id="disease_name_update" name="name" class="form-control" type="text" placeholder="name...">
+                                                   <div id="disease_update_name_error" class="invalid-feedback" style="padding-left: 10px"></div>
+
+                                                   <label>Category </label><br/>
+                                                   <div>
+                                                        <select class="fstdropdown-select" id="disease_update_category_dropdown"  name="disease_category" data-url="{% url "load_disease_category" %}">
+                                                        </select>
+                                                    </div>
+                                                    <div id="disease_update_category_error" class="invalid-feedback" style="padding-left: 10px"></div>
+
+                                                   <label>Pathogen </label><br/>
+                                                   <div>
+                                                        <select class="fstdropdown-select" id="disease_update_pathogen_dropdown"  name="pathogen" data-url="{% url "load_pathogen" %}">
+                                                        </select>
+                                                    </div>
+                                                    <div id="disease_update_pathogen_error" class="invalid-feedback" style="padding-left: 10px"></div><br/>
+
+                                                   <input type="submit" value="save" class="btn btn-primary btn-sm">
+                                               </form>
+                                           </div>
+                                </div>
+                   </div>
+
+             </div>
+             <div class="card-footer">Footer</div>
+        </div>
+
+
+{% block content6 %}
+
+{% endblock content6 %}
+ {% endblock content5 %}
+
+
+
+
+
+
+
+

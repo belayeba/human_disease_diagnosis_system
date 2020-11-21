@@ -1,0 +1,341 @@
+ {% extends "manage_factor_options/factor_options.html" %}
+ {% block content13 %}
+
+         <div class="card pane role_toggle role_toggle_15">
+
+
+             <input id="selected_medicine_for_add_type_and_usage" value="" hidden data-url="{%  url "load_medicine_type_usage_form_data" %}" data-get-url="{% url "load_saved_medicine_type_usage_data" %}">
+             <div class="card-header bg-secondary text-white">Matching medicine with type and taking way
+             <a   onclick='toggle_matching_disease_type_usage_form_block()' id="matching_disease_type_usage_btn"
+                          style="float:right;cursor:pointer;margin-bottom:8px;color:lightcyan"><ins>Add new</ins></a>
+             </div>
+
+             <div class="card-body">
+
+                     <div id="matching_disease_type_usage_form_block" style="z-index: 1;background-color: whitesmoke;padding: 10px;border-radius: 5px" >
+
+
+                  <form id="matching_disease_type_usage_form" data-url="{% url "save_medicine_type_usage" %}">
+                      {% csrf_token %}
+                      <div id="disease_type_usage_general_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                      <div id="disease_type_usage_general_success" class="valid-feedback" style="padding-left: 10px"></div>
+                      <input id="medicine_type_usage_id"  name="medicine" value="" hidden>
+                      <div class="row" style="padding-top: 8px">
+                          <div class="col-3 text-right" >
+                              <label>Medicine Name :</label>
+                          </div>
+                          <div class="col-9">
+                              <input name="medicine_name" id="medicine_detail_form_name" onkeyup="load_disease_name($(this).val(),'{% url 'disease_name_browser'  %}')"
+                               type="text" class="form-control"
+                               placeholder="medicine name..."
+                               onkeydown="block_unwanted_symbol()" readonly>
+                               <div id="disease_type_usage_medicine_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                       <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Medicine Type :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="medicine_detail_type_drop_down"  name="type" data-url="{% url "load_disease_category" %}">
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_type_usage_type_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Taking way :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="medicine_detail_usage_drop_down"  name="usage" data-url="{% url "load_pathogen" %}">
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_type_usage_usage_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Measurement :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="medicine_detail_measurement_drop_down"  name="measurement" data-url="{% url "load_pathogen" %}">
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_type_usage_measurement_error" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3">
+
+                          </div>
+                          <div class="col-9">
+                                <input type="submit" class="btn btn-info btn-sm" value="add">
+                          </div>
+                      </div>
+                  </form>
+                   </div>
+
+                   <table><tr><td>Medicine Name</td><td id="Medicine_name_display_1" style="color:blue"></td></tr></table>
+                   <div id="medicine_type_usage_data_display_block">
+
+                   </div>
+
+
+
+             </div>
+
+             <div class="card-footer">Footer</div>
+
+
+
+
+
+
+
+             <div id="medicine_usage_type_form_template_container" style="display: none">
+             <div id="medicine_usage_type_form_template" >
+             <form id="update_medicine_type_usage_form" data-url="{% url "edit_medicine_type_usage" %}">
+                      {% csrf_token %}
+                      <div id="disease_type_usage_update_general_error_MYID" class="invalid-feedback" style="padding-left: 10px"></div>
+                      <div id="disease_type_usage_update_general_success_MYID" class="valid-feedback" style="padding-left: 10px"></div>
+                      <input id="update_medicine_usage_type_id_MYID"  name="medicine_usage_type_id"  value="" hidden>
+                      <input id="update_medicine_usage_type_medicine_id"  name="medicine"  value="" hidden>
+
+
+                       <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Medicine Type :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="medicine_detail_type_drop_down_MYID"  name="type">
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_type_usage_type_error_MYID" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Taking way :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="medicine_detail_usage_drop_down_MYID"  name="usage" >
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_type_usage_usage_error_MYID" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3 text-right">
+                                  <label>Measurement :</label>
+                          </div>
+                          <div class="col-9">
+                                <div>
+                                    <select class="fstdropdown-select" id="medicine_detail_measurement_drop_down_MYID"  name="measurement">
+                                      <option value="">Select option</option>
+
+                                    </select>
+                                </div>
+                                <div id="disease_type_usage_measurement_error_MYID" class="invalid-feedback" style="padding-left: 10px"></div>
+                          </div>
+                      </div>
+
+                      <div class="row"  style="padding-top: 8px">
+                          <div class="col-3">
+
+                          </div>
+                          <div class="col-9">
+                                <input type="submit" class="btn btn-info btn-sm" value="update">
+                          </div>
+                      </div>
+                  </form>
+         </div>
+        </div>
+
+          <div id="delete_medicine_type_usage_template" hidden data-url="{% url "delete_disease_detail" %}">
+              <table class="myclass" style="width:100%">
+                  <tr style="background-color:whitesmoke">
+                      <td style="color: red">are you sure to delete this medicine detail data?</td>
+                      <td> <button class="btn btn-warning" onclick="cancel_delete_medicine_detail()">no</button> </td>
+                      <td> <button class="btn btn-primary" onclick="delete_medicine_detail('myid')">yes</button> </td>
+                  </tr>
+              </table>
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+         <div class="card pane role_toggle role_toggle_13">
+             <div class="card-header bg-secondary text-white">Matching medicine with type and usage</div>
+
+             <div class="card-body">
+
+                  <table data-url="{% url "medicine_datatable_link" %}" style="margin-top:5px; margin-left:0px;" id="medicine_table_2">
+                            <thead>
+                                <th>Name</th><th></th>
+                            </thead>
+                  </table>
+
+             </div>
+             <div class="card-footer">Footer</div>
+        </div>
+
+
+
+
+
+
+
+        <div id="factor_adding_to_instruction_template" hidden>
+                 <div id="deletetable_factor_options_for_instruction_idd" class="removableclass container instruction-factor-template"  style="margin-bottom: 5px">
+                      <input name="factor_idd" value="idd" style="display: none">
+                      <div class="row" style="margin-left: 1px;">
+                        <div class="col col-md-auto col1" id="_single_selected_factor_first_part_idd" style="border:1px solid lightgrey;background-color: aliceblue;border-top-left-radius: 10px;border-bottom-left-radius: 10px ">
+                             No added factor
+                        </div>
+                        <div onclick='delete_factor_for_instruction_from_form(myinstruction,idd)' class="col-md-auto" style="cursor:pointer;border:1px solid lightgrey;background-color: aliceblue;border-top-right-radius: 10px;border-bottom-right-radius: 10px;color: brown"  id="_single_selected_factor_second_part_idd">
+                           x
+                        </div>
+
+                      </div>
+                 </div>
+         </div>
+
+
+     <div id="instruction_manage_url_container" style="display: none" remove-instruction-url="{%  url "delete_instruction" %}" remove-factor-url="{%  url "remove_factor_from_saved_instruction" %}"  add-factor-url="{% url "add_factor_to_saved_instruction" %}"></div>
+
+
+        <div id="add_prescription_for_medicine_template" style="display: none">
+
+               <form onsubmit="" data-url="{% url "add_instruction_for_medicine" %}" class="remove" id="add_instruction_form_idd" instruction_id=idd>
+                   <div style="height: 20px;padding-bottom: 10px; color:red">
+                        <i class="fa fa-times float-right " style="cursor: pointer" onclick="disable_instruction_form()"></i>
+                   </div>
+                     <div style="display: none">{% csrf_token %}</div>
+                 <table width="100%" >
+                     <tr style="background-color: whitesmoke">
+                         <td width="20%">Factors</td>
+                         <td  style="padding: 10px">
+                                  <div id="general_message_for_instruction_idd" style="color:red;display:none"></div>
+                                 <div id="factor_error_message_for_instruction_idd" style="color:red;display:none"></div>
+                                 <div id="instruction_factors_container_idd"  style="border:1px solid lightgrey;padding: 10px;background-color: white;">
+                                      <div style="color:brown" id="heddennable-instruction-factor-message_idd">No factor selected!</div>
+                                 </div>
+                                <select onchange=' select_and_add_factor_to_instruction(idd,$(this).val(),$(this).children("option:selected").html());'
+                                     id="factors_option_dropdown_for_instruction_idd">
+                                </select>
+                         </td>
+                         <td width="5%">
+                             <div style="padding:4px;width: 30px;height:30px;border : 1px solid lightgray;text-align: center" onclick="switch_disease_data_management(14);toggle_factor_options_registration_block(1);">
+                                 <i class="fa fa-plus" style="color:limegreen"></i>
+                             </div>
+                         </td>
+                     </tr>
+                     <tr style="background-color: whitesmoke">
+                         <td width="20%">Per_day_take</td>
+                         <td>
+                              <div id="perdaytake_message_for_instruction_idd" style="color:red;display:none"></div>
+                             <input name="perDayTake" class="form-control" type="number" min="-1" value=3>
+                         </td>
+                     </tr>
+                     <tr style="background-color: whitesmoke">
+                         <td width="20%">Per_day_detail</td>
+                         <td>
+                             <textarea name="perDayDetail" class="form-control" placeholder="write some instruction how to use in a day......"></textarea>
+                         </td>
+                     </tr>
+                     <tr style="background-color: whitesmoke">
+                         <td width="20%">How long take</td>
+                         <td>
+                              <div id="howLong_message_for_instruction_idd" style="color:red;display:none"></div>
+                              <input name="howLong" class="form-control" type="number" min="-1" >
+                         </td>
+                     </tr>
+                     <tr style="background-color: whitesmoke"><td><button  type="submit" class="btn btn-sm btn-info">add</button></td><td></td><td></td></tr>
+                 </table>
+                </form>
+        </div>
+
+
+
+
+
+
+
+        <div id="update_instruction_template" style="display: none">
+
+               <form onsubmit="" data-url="{% url "update_instruction" %}" class="remove" id="update_instruction_form_idd" instruction_id=idd>
+                   <div style="height: 20px;padding-bottom: 10px; color:red">
+                        <i class="fa fa-times float-right " style="cursor: pointer" onclick="disable_update_instruction_form()"></i>
+                   </div>
+                     <div style="display: none">{% csrf_token %}</div>
+                 <table width="100%" >
+                     <tr style="background-color: whitesmoke">
+                         <td width="20%">Per_day_take</td>
+                         <td>
+                              <div id="perdaytake_message_for_update_instruction_idd" style="color:red;display:none"></div>
+                             <input name="perDayTake" class="form-control" type="number" value=perdayvalue min="-1" value=3>
+                         </td>
+                     </tr>
+                     <tr style="background-color: whitesmoke">
+                         <td width="20%">Per_day_detail</td>
+                         <td>
+                             <textarea name="perDayDetail" class="form-control"  placeholder="write some instruction how to use in a day......">perdaydetaildata</textarea>
+                         </td>
+                     </tr>
+                     <tr style="background-color: whitesmoke">
+                         <td width="20%">How long take</td>
+                         <td>
+                              <div id="howLong_message_for_update_instruction_idd" style="color:red;display:none"></div>
+                              <input name="howLong" class="form-control" type="number" value=howlongdata min="-1" >
+                         </td>
+                     </tr>
+                     <tr style="background-color: whitesmoke"><td><button  type="submit" class="btn btn-sm btn-info">save</button></td><td></td><td></td></tr>
+                 </table>
+                </form>
+        </div>
+
+ {% endblock content13 %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

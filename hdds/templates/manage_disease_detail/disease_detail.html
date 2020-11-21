@@ -1,0 +1,294 @@
+
+ {% extends "manage_medicine_taking_way/medicine_taking_way.html" %}
+ {% block content11 %}
+
+
+         <div class="card pane role_toggle role_toggle_11" >
+             <div class="card-header bg-secondary text-white">Registering disease detail
+             </div>
+             <div class="card-body">
+
+                  <div id="disease_detail_table_parent_div">
+                  <table data-url="{% url "disease_detail_datatable_link" %}" style="margin-top:5px; margin-left:0px;" id="disease_detail_table">
+                            <thead>
+                                <th>Name</th><th></th><th></th><th></th><th></th><th></th>
+                            </thead>
+                  </table>
+                  </div>
+             </div>
+             <div class="card-footer">Footer</div>
+        </div>
+        <div class="card pane role_toggle role_toggle_12" >
+             <div class="card-header bg-secondary text-white">Add disease detail
+             </div>
+             <div class="card-body">
+                              <input data-url="{% url "load_disease_symptom_and_factor" %}" id="selected_disease_id_for_add_symptom" val="" hidden>
+                     <table class="table table-striped">
+
+                         <tr>
+                             <td>Disease Name</td>
+                             <td id="selected_disease_id">
+
+                             </td>
+                         </tr>
+                         <tr><td>Disease Symptoms</td>
+                             <td>
+                                 <div id="remove_symptom_from_disease_url" data-url="{% url "remove_symptom_from_disease" %}" hidden></div>
+                                <div id="selected_disease_symptoms">
+                                    <span style="color:brown">No symptom added for this disease!</span>
+                                </div>
+                                 <br/>
+                                 <a href="#" onclick="$('#symptom_add_to_disease_detail_div').slideToggle();"><ins style="color:blue">add symptom</ins></a>
+
+                             </td>
+                         </tr>
+                         <tr id="symptom_add_to_disease_detail_div">
+                             <td colspan="2">
+                                 <table width="100%" >
+                                     <tr style="background-color: whitesmoke"><td colspan="3" id="symptom_add_message" ></td></tr>
+                                     <tr style="background-color: whitesmoke">
+                                         <td width="20%">Category</td>
+                                         <td>
+                                             <select class="fstdropdown-select" onchange="load_symptom_to_disease_detail_form()" id="symptom_category_for_add_disease_detail_dropdown">
+
+                                           </select>
+                                         </td>
+                                         <td></td>
+                                     </tr>
+                                     <tr style="background-color: whitesmoke">
+                                         <td width="20%">Symptom</td>
+                                         <td>
+                                             <select data-url="{% url "load_symptom_for_disease_detail" %}" class="fstdropdown-select" id="symptom_for_add_disease_detail_dropdown">
+
+                                            </select>
+                                         </td>
+                                         <td width="5%">
+                                             <div style="padding:4px;width: 30px;height:30px;border : 1px solid lightgray;text-align: center" onclick="switch_disease_data_management(2);$('#registering_symptom_form_block').show();">
+                                                 <i class="fa fa-plus" style="color:limegreen"></i>
+                                             </div>
+                                         </td>
+                                     </tr>
+                                     <tr style="background-color: whitesmoke">
+                                         <td width="20%">Status</td>
+                                         <td>
+                                             <select class="form-control" id="status_for_add_disease_detail_dropdown">
+                                                  <option value=2>select status</option>
+                                                  <option value=1>Must be observed</option>
+                                                  <option value=0>May not be observed</option>
+                                           </select>
+                                         </td>
+
+                                     </tr>
+                                     <tr style="background-color: whitesmoke"><td><button onclick="add_symptom_to_disease()" id="add_symptom_to_disease_btn" data-url="{% url "add_symptom_to_disease" %}" class="btn btn-sm btn-info">add</button></td><td></td><td></td></tr>
+                                 </table>
+
+                             </td>
+                         </tr>
+
+
+
+
+
+
+
+                         <tr><td>Disease Factor</td>
+                             <td >
+                                 <div id="remove_factor_option_from_disease_url" data-url="{% url "remove_factor_option_from_disease" %}" hidden></div>
+                                <div id="selected_disease_factors">
+                                    <span style="color:brown">No factor added for this disease!</span>
+                                </div>
+                                 <br/>
+                                 <a href="#" onclick="$('#factor_add_to_disease_detail_div').slideToggle();"><ins style="color:blue">add factor</ins></a>
+
+                             </td>
+                         </tr>
+                         <tr id="factor_add_to_disease_detail_div">
+                             <td colspan="2">
+                                 <table width="100%" >
+                                     <tr style="background-color: whitesmoke"><td colspan="3" id="factor_option_add_message" ></td></tr>
+                                     <tr style="background-color: whitesmoke">
+                                         <td width="20%">Factor</td>
+                                         <td>
+                                             <select class="fstdropdown-select"  onchange="load_factor_option_to_disease_detail_form()"  id="factor_for_add_disease_detail_dropdown" >
+
+                                             </select>
+                                         </td>
+                                          </tr>
+                                     <tr>
+                                         <td width="20%">Factor Option</td>
+                                         <td>
+                                             <select class="fstdropdown-select" id="factor_option_for_add_disease_detail_dropdown"  data-url="{% url "load_factor_option_for_disease_detail" %}">
+
+                                             </select>
+                                         </td>
+                                         <td width="5%">
+                                             <div style="padding:4px;width: 30px;height:30px;border : 1px solid lightgray;text-align: center" onclick="switch_disease_data_management(14);$('#registering_factor_options_form_block').show();">
+                                                 <i class="fa fa-plus" style="color:limegreen"></i>
+                                             </div>
+                                         </td>
+                                     </tr>
+                                     <tr>
+                                         <td>Status</td>
+                                         <td><select id="status_of_factor_to_add_to_disease" class="form-control">
+                                             <option value=1>Include</option>
+                                             <option value=0>Exclude</option>
+                                         </select></td>
+                                     </tr>
+                                     <tr style="background-color: whitesmoke"><td><button onclick="add_factor_option_to_disease()" id="add_factor_option_to_disease_btn" class="btn btn-sm btn-info" data-url="{% url "add_factor_option_to_disease" %}">add</button></td><td></td><td></td></tr>
+                                 </table>
+
+                             </td>
+                         </tr>
+
+
+                     </table>
+
+             </div>
+             <div class="card-footer">Footer</div>
+        </div>
+
+        <div class="card pane role_toggle role_toggle_18" >
+             <div class="card-header bg-secondary text-white">Disease Prescription
+             </div>
+             <div class="card-body">
+                              <input data-url="{% url "load_disease_prescription" %}" id="selected_disease_id_for_prescription" val="" hidden>
+                     <table class="table table-striped">
+
+                         <tr>
+                             <td><b>Disease Name :</b></td>
+                             <td id="selected_disease_id2">
+
+                             </td>
+                         </tr>
+
+
+                         <tr><td colspan="2">Prescribed medicines :</td>
+
+                         </tr>
+
+                         <tr hidden>
+
+                         </tr>
+
+                         <tr  id="prescription_related_url_container" delete-prescription-url="{% url "remove_prescription_from_disease" %}" delete-factor-url="{% url "remove_factor_from_prescribed_medicine" %}" add-factor-url="{% url "add_factor_to_prescribed_medicine" %}">
+                              <td colspan="2">
+                                         <div id="remove_prescription_from_disease_url" data-url="{% url "remove_prescription_from_disease" %}"  hidden></div>
+                                         <div id="selected_disease_prescriptions_saved_data">
+                                            <span style="color:brown">No prescribed medicine for this disease!</span>
+                                         </div>
+                                         <br/>
+                                         <a href="#" onclick="$('#prescription_add_to_disease_detail_div').slideToggle(); load_medicine_for_prescription_form();load_medicine_type_for_prescription_form();load_factor_option_to_prescription_form();"><ins style="color:blue">add prescription</ins></a>
+                              </td>
+                         </tr>
+
+
+                         <tr id="prescription_add_to_disease_detail_div">
+                             <td colspan="2">
+
+
+
+                                 <div id="factor_adding_to_prescription_template" hidden>
+                                         <div id="deletetable_factor_options_for_prescription_idd" class="container factor-template"  style="margin-bottom: 5px">
+                                              <input name="factor_idd" value="idd" style="display: none">
+                                              <div class="row" style="margin-left: 1px;">
+                                                <div class="col col-md-auto col1" id="single_selected_factor_first_part_idd" style="border:1px solid lightgrey;background-color: aliceblue;border-top-left-radius: 10px;border-bottom-left-radius: 10px ">
+                                                     No added factor
+                                                </div>
+                                                <div onclick='delete_factor_for_prescription_from_form(idd)' class="col-md-auto" style="cursor:pointer;border:1px solid lightgrey;background-color: aliceblue;border-top-right-radius: 10px;border-bottom-right-radius: 10px;color: brown"  id="single_selected_factor_second_part_idd">
+                                                   x
+                                                </div>
+
+                                              </div>
+                                         </div>
+                                 </div>
+
+
+
+
+                                 <form data-url="{% url "add_disease_prescription" %}" id="add_disease_prescription_form">
+                                     {% csrf_token %}
+                                     <input name="disease" val="" style="display: none"  id="disease_prescription_id">
+                                 <table width="100%" >
+                                     <tr style="background-color: whitesmoke"><td colspan="3" id="prescription_add_message" ></td></tr>
+
+                                     <tr style="background-color: whitesmoke">
+                                         <td width="20%">Medicine</td>
+                                         <td>
+                                             <select name="medicine" data-url="{% url "load_medicine_to_disease_prescription" %}" class="fstdropdown-select" onchange="load_medicine_type_for_prescription_form();" id="medicine_for_disease_prescription_form">
+                                                    <option value=0>select medicine name</option>
+                                            </select>
+                                         </td>
+                                         <td width="5%">
+                                             <div style="padding:4px;width: 30px;height:30px;border : 1px solid lightgray;text-align: center" onclick="switch_disease_data_management(5);$('#registering_symptom_form_block').show();">
+                                                 <i class="fa fa-plus" style="color:limegreen"></i>
+                                             </div>
+                                         </td>
+                                     </tr>
+
+
+                                     <tr style="background-color: whitesmoke">
+                                         <td width="20%">Type</td>
+                                         <td>
+                                             <select name='type' class="form-control" id="medicine_type_dropdown_for_disease_prescription"  data-url="{% url "load_medicine_type_to_disease_prescription" %}">
+                                                  <option value=0>select medicine type</option>
+                                            </select>
+                                         </td>
+                                         <td width="5%">
+                                             <div style="padding:4px;width: 30px;height:30px;border : 1px solid lightgray;text-align: center" onclick="var med_id=$('#medicine_for_disease_prescription_form').val();
+                                                                      if(!med_id || med_id==0)
+                                                                      {return;}
+                                                                      go_to_adding_disease_detail_data_page($('#medicine_for_disease_prescription_form').children('option:selected').html(),$('#medicine_for_disease_prescription_form').val());
+                                                                      toggle_matching_disease_type_usage_form_block(1);">
+                                                 <i class="fa fa-plus" style="color:limegreen"></i>
+                                             </div>
+                                         </td>
+                                     </tr>
+
+                                     <tr style="background-color: whitesmoke">
+                                         <td width="20%">Factors</td>
+                                         <td  style="padding: 10px">
+
+                                                 <div id="factors_container"  style="border:1px solid lightgrey;padding: 10px;background-color: white;">
+                                                      <div style="color:brown" id="hiddennable-factor-message">No factor selected!</div>
+                                                 </div>
+
+
+
+                                             <select onchange=' select_and_add_factor_to_prescription($(this).val(),$(this).children("option:selected").html());'
+                                                     class="fstdropdown-select" id="factors_option_dropdown_for_prescription">
+                                             </select>
+                                         </td>
+                                          <td width="5%">
+                                             <div style="padding:4px;width: 30px;height:30px;border : 1px solid lightgray;text-align: center" onclick="switch_disease_data_management(14);toggle_factor_options_registration_block(1);">
+                                                 <i class="fa fa-plus" style="color:limegreen"></i>
+                                             </div>
+                                         </td>
+                                     </tr>
+
+
+
+                                     <tr style="background-color: whitesmoke"><td><button  type="submit" class="btn btn-sm btn-info">add</button></td><td></td><td></td></tr>
+                                 </table>
+                                </form>
+                             </td>
+                         </tr>
+
+
+
+                     </table>
+
+             </div>
+             <div class="card-footer">Footer</div>
+        </div>
+        {% block content12 %}
+
+       {% endblock content12 %}
+ {% endblock content11 %}
+
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2019 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="loop-alt" unicode="&#xe800;" d="M799 351l112 0 0-56q0-69-48-119t-119-49l-391 0 0-111-223 168 223 167 0-112 391 0q23 0 39 16t16 40l0 56z m-669 56l0-56-112 0 0 56q0 70 49 118t119 49l390 0 0 111 223-166-223-168 0 111-390 0q-24 0-40-16t-16-39z" horiz-adv-x="928" />
+
+<glyph glyph-name="loop" unicode="&#xe801;" d="M575 183l168 223 168-223-112 0 0-57q0-69-48-118t-119-49l-334 0q-70 0-119 49t-49 118l0 57 111 0 0-57q0-22 17-39t40-16l334 0q23 0 40 15t16 40l0 57-113 0z m-221 335l-167-224-169 224 112 0 0 55q0 69 49 118t119 50l334 0q70 0 119-50t48-118l0-55-111 0 0 55q0 24-16 40t-40 16l-334 0q-24 0-40-16t-17-40l0-55 113 0z" horiz-adv-x="928" />
+</font>
+</defs>
+</svg>

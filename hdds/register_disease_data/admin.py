@@ -1,0 +1,20 @@
+from django.contrib import admin
+
+from .models import  *
+admin.site.register(Pathogen)
+admin.site.register(Measurement)
+admin.site.register(MedicineTakingWay)
+admin.site.register(MedicineType)
+admin.site.register(Factor)
+admin.site.register(Symptom)
+admin.site.register(Disease)
+admin.site.register(DiseaseSymptom)
+admin.site.register(SymptomCategory)
+admin.site.register(DiseaseFactor)
+admin.site.register(Medicine)
+admin.site.register(Medicine_Type_Usage)
+admin.site.register(DiseaseCategory)
+admin.site.register(Prescription)
+admin.site.register(InstructionFactor)
+admin.site.register(MedicineTakingInstruction)
+admin.site.register(PrescriptionFactors)
